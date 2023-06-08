@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         inputVector = inputVector.normalized;
         Vector3 moveDir =  new Vector3(inputVector.x, 0f, inputVector.y);
         isWalking = moveDir != Vector3.zero;
-        transform.forward = Vector3.Slerp(transform.forward,moveDir * _rotateSpeed,Time.deltaTime) ;
+        transform.forward = Vector3.Slerp(transform.forward,moveDir * _rotateSpeed,Time.deltaTime*_rotateSpeed) ;
         var step = moveDir * Time.deltaTime * _moveSpeed;
         transform.position += step;
     }
