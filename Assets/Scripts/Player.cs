@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,12 @@ public class Player : MonoBehaviour
         HandleInteraction();
     }
 
-    private void HandleInteraction()
+    private void Start()
+    {
+        _gameInput.OnInteractPerformed += PlayerInteracted;
+    }
+
+    private void PlayerInteracted(object sender, EventArgs e)
     {
         var inputVector = _gameInput.GetInputVector2Normalized();
         Vector3 moveDir;
@@ -32,6 +38,18 @@ public class Player : MonoBehaviour
         {
             Debug.Log(raycastHit.transform.name);
         }
+    }
+
+    private void HandleInteraction()
+    {
+        // var inputVector = _gameInput.GetInputVector2Normalized();
+        // Vector3 moveDir;
+        // moveDir = inputVector != Vector2.zero ? new Vector3(inputVector.x, 0f, inputVector.y) : _lastInteractDir;
+        // _lastInteractDir = moveDir;
+        // if (Physics.Raycast(transform.position, moveDir, out RaycastHit raycastHit, _interactDistance,_counterlayerMask))
+        // {
+        //     Debug.Log(raycastHit.transform.name);
+        // }
     }
 
     private void HandleMovement()
