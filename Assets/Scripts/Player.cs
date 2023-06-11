@@ -9,11 +9,32 @@ public class Player : MonoBehaviour
     [SerializeField] private GameInput _gameInput;
     [SerializeField] private float _playerWidth = 1f;
     [SerializeField] private float _playerHeight = 1f;
+    private float _interactDistance = 2f;
+    private Vector3 _lastInteractDir;
 
     private bool isWalking;
+    [SerializeField] private LayerMask _counterlayerMask;
 
     // Update is called once per frame
     void Update()
+    {
+        HandleMovement();
+        HandleInteraction();
+    }
+
+    private void HandleInteraction()
+    {
+        var inputVector = _gameInput.GetInputVector2Normalized();
+        Vector3 moveDir;
+        moveDir = inputVector != Vector2.zero ? new Vector3(inputVector.x, 0f, inputVector.y) : _lastInteractDir;
+        _lastInteractDir = moveDir;
+        if (Physics.Raycast(transform.position, moveDir, out RaycastHit raycastHit, _interactDistance,_counterlayerMask))
+        {
+            Debug.Log(raycastHit.transform.name);
+        }
+    }
+
+    private void HandleMovement()
     {
         var inputVector = _gameInput.GetInputVector2Normalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
