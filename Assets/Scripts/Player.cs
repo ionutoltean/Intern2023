@@ -22,11 +22,8 @@ public class Player : MonoBehaviour
         public ClearCounter selectedCounter;
     }
 
-    public static Player Instance
-    {
-        get;
-        private set;
-    }
+    public static Player Instance { get; private set; }
+
     // Update is called once per frame
     void Update()
     {
@@ -40,6 +37,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Instance was already set");
         }
+
         Instance = this;
     }
 
@@ -60,22 +58,27 @@ public class Player : MonoBehaviour
         Vector3 moveDir;
         moveDir = inputVector != Vector2.zero ? new Vector3(inputVector.x, 0f, inputVector.y) : _lastInteractDir;
         _lastInteractDir = moveDir;
-        if (Physics.Raycast(transform.position, moveDir, out RaycastHit raycastHit, _interactDistance,
-                _counterlayerMask))
+        bool counterFound = Physics.Raycast(transform.position, moveDir, out RaycastHit raycastHit, _interactDistance,
+            _counterlayerMask);
+        if (counterFound)
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            bool hasComponent = raycastHit.transform.TryGetComponent(out ClearCounter clearCounter);
+            if (hasComponent)
             {
                 if (clearCounter != _selectedCounter)
                 {
                     ChangeSelectedCounter(clearCounter);
                 }
+                
             }
-            else
+
+            if (hasComponent == false)
             {
                 ChangeSelectedCounter(null);
             }
         }
-        else
+
+        if (counterFound == false)
         {
             ChangeSelectedCounter(null);
         }
