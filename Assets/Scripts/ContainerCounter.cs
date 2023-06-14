@@ -1,31 +1,24 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : BaseCounter, IKitchenObjectParent
+public class ContainerCounter : BaseCounter,IKitchenObjectParent
 {
     [SerializeField] private KitchenObjectSO _kitchenObjectSO;
     [SerializeField] private GameObject _counterTopPoint;
     [SerializeField] private KitcheObject _kitchenObject;
-
-
     public void Interact(Player player)
     {
+            if(player.HasKitchenObject())return;
         if (_kitchenObject == null)
         {
             GameObject spawnedItem = Instantiate(_kitchenObjectSO.prefab, _counterTopPoint.transform);
             spawnedItem.transform.localPosition = Vector3.zero;
             _kitchenObject = spawnedItem.GetComponent<KitcheObject>();
-            _kitchenObject.SetKitchenObjectParent(this);
+            _kitchenObject.SetKitchenObjectParent(player);
         }
-        else
-        {
-            if (player.HasKitchenObject() == false)
-                _kitchenObject.SetKitchenObjectParent(player);
-        }
+       
     }
-
     public Transform GetCounterTopPoint()
     {
         return _counterTopPoint.transform;

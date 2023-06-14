@@ -19,8 +19,10 @@ public class KitcheObject : MonoBehaviour
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
+       // if(kitchenObjectParent.HasKitchenObject())return;
         if (_kitchenObjectParent != null)
             _kitchenObjectParent.SetKitchenObject(null);
+        
         _kitchenObjectParent = kitchenObjectParent;
         transform.parent = kitchenObjectParent.GetCounterTopPoint();
         kitchenObjectParent.SetKitchenObject(this);

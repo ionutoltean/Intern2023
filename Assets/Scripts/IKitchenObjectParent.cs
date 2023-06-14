@@ -12,4 +12,5 @@ public interface IKitchenObjectParent
 
     public bool HasKitchenObject();
     public void ClearKitchenObject();
+  
 }

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
     [SerializeField] private float _playerHeight = 1f;
     private float _interactDistance = 2f;
     private Vector3 _lastInteractDir;
-    private ClearCounter _selectedCounter;
+    private BaseCounter _selectedCounter;
     private bool isWalking;
     [SerializeField] private LayerMask _counterlayerMask;
     
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     public class OnSelectedCounterEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
 
     public static Player Instance { get; private set; }
@@ -52,8 +52,8 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     private void PlayerInteracted(object sender, EventArgs e)
     {
-        if (_selectedCounter != null)
-            _selectedCounter.Interact(this);
+       // if (_selectedCounter != null)
+         //   _selectedCounter.Interact(this);
     }
 
     private void HandleInteraction()
@@ -66,12 +66,12 @@ public class Player : MonoBehaviour,IKitchenObjectParent
             _counterlayerMask);
         if (counterFound)
         {
-            bool hasComponent = raycastHit.transform.TryGetComponent(out ClearCounter clearCounter);
+            bool hasComponent = raycastHit.transform.TryGetComponent(out BaseCounter baseCounter);
             if (hasComponent)
             {
-                if (clearCounter != _selectedCounter)
+                if (baseCounter != _selectedCounter)
                 {
-                    ChangeSelectedCounter(clearCounter);
+                    ChangeSelectedCounter(baseCounter);
                 }
                 
             }
@@ -136,9 +136,9 @@ public class Player : MonoBehaviour,IKitchenObjectParent
         return isWalking;
     }
 
-    public void ChangeSelectedCounter(ClearCounter clearCounter)
+    public void ChangeSelectedCounter(BaseCounter baseCounter)
     {
-        _selectedCounter = clearCounter;
+        _selectedCounter = baseCounter;
         OnSelectedCounterChange?.Invoke(this, new OnSelectedCounterEventArgs
         {
             selectedCounter = _selectedCounter
