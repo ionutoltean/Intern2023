@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,IKitchenObjectParent
 {
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _rotateSpeed = 10;
@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     private ClearCounter _selectedCounter;
     private bool isWalking;
     [SerializeField] private LayerMask _counterlayerMask;
+    
+    [SerializeField]private GameObject playerHoldPoint;
+    
+    private KitcheObject _kitcheObject;
     public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounterChange;
 
     public class OnSelectedCounterEventArgs : EventArgs
@@ -49,7 +53,7 @@ public class Player : MonoBehaviour
     private void PlayerInteracted(object sender, EventArgs e)
     {
         if (_selectedCounter != null)
-            _selectedCounter.Interact();
+            _selectedCounter.Interact(this);
     }
 
     private void HandleInteraction()
@@ -77,7 +81,8 @@ public class Player : MonoBehaviour
                 ChangeSelectedCounter(null);
             }
         }
-
+ /////
+ /// 
         if (counterFound == false)
         {
             ChangeSelectedCounter(null);
@@ -138,5 +143,30 @@ public class Player : MonoBehaviour
         {
             selectedCounter = _selectedCounter
         });
+    }
+
+    public Transform GetCounterTopPoint()
+    {
+        return playerHoldPoint.transform;
+    }
+
+    public KitcheObject GetKitchenObject()
+    {
+        return _kitcheObject;
+    }
+
+    public void SetKitchenObject(KitcheObject kitcheObject)
+    {
+        this._kitcheObject = kitcheObject;
+    }
+
+    public bool HasKitchenObject()
+    {
+        return _kitcheObject != null;
+    }
+
+    public void ClearKitchenObject()
+    {
+        _kitcheObject = null;
     }
 }

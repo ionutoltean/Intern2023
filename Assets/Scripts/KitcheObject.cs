@@ -5,25 +5,25 @@ using UnityEngine;
 public class KitcheObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO _kitchenObjectSo;
-    [SerializeField] private ClearCounter _currentCounter;
+    [SerializeField] private IKitchenObjectParent _kitchenObjectParent;
 
     public KitchenObjectSO GetKitchenObject()
     {
         return _kitchenObjectSo;
     }
 
-    public ClearCounter GetCurrentCounter()
+    public IKitchenObjectParent GetCurrentCounter()
     {
-        return _currentCounter;
+        return _kitchenObjectParent;
     }
 
-    public void SetCurrentCounter(ClearCounter clearCounter)
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-        if (_currentCounter != null)
-            _currentCounter.SetKitchenObject(null);
-        _currentCounter = clearCounter;
-        transform.parent = clearCounter.GetCounterTopPoint();
-        clearCounter.SetKitchenObject(this);
+        if (_kitchenObjectParent != null)
+            _kitchenObjectParent.SetKitchenObject(null);
+        _kitchenObjectParent = kitchenObjectParent;
+        transform.parent = kitchenObjectParent.GetCounterTopPoint();
+        kitchenObjectParent.SetKitchenObject(this);
         transform.localPosition = Vector3.zero;
     }
 }
