@@ -52,8 +52,8 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     private void PlayerInteracted(object sender, EventArgs e)
     {
-       // if (_selectedCounter != null)
-         //   _selectedCounter.Interact(this);
+        if (_selectedCounter != null)
+            _selectedCounter.Interact(this);
     }
 
     private void HandleInteraction()

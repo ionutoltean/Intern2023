@@ -3,51 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : BaseCounter, IKitchenObjectParent
+public class ClearCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO _kitchenObjectSO;
-    [SerializeField] private GameObject _counterTopPoint;
-    [SerializeField] private KitcheObject _kitchenObject;
 
-
-    public void Interact(Player player)
+    public override void Interact(Player player)
     {
-        if (_kitchenObject == null)
-        {
-            GameObject spawnedItem = Instantiate(_kitchenObjectSO.prefab, _counterTopPoint.transform);
-            spawnedItem.transform.localPosition = Vector3.zero;
-            _kitchenObject = spawnedItem.GetComponent<KitcheObject>();
-            _kitchenObject.SetKitchenObjectParent(this);
-        }
-        else
+        if (HasKitchenObject())
         {
             if (player.HasKitchenObject() == false)
-                _kitchenObject.SetKitchenObjectParent(player);
+                GetKitchenObject().SetKitchenObjectParent(player);
         }
     }
 
-    public Transform GetCounterTopPoint()
-    {
-        return _counterTopPoint.transform;
-    }
-
-    public KitcheObject GetKitchenObject()
-    {
-        return _kitchenObject;
-    }
-
-    public void SetKitchenObject(KitcheObject kitcheObject)
-    {
-        this._kitchenObject = kitcheObject;
-    }
-
-    public bool HasKitchenObject()
-    {
-        return _kitchenObject != null;
-    }
-
-    public void ClearKitchenObject()
-    {
-        _kitchenObject = null;
-    }
 }

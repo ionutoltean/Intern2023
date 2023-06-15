@@ -110,7 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2583f56538d0f448fc7f9edf7cb535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedVisual: {fileID: 5985335768825659946}
+  selectedVisual:
+  - {fileID: 5985335768825659946}
   currentCounter: {fileID: 1633452634632796370}
 --- !u!1 &5985335768825659946 stripped
 GameObject:
