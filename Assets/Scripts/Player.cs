@@ -105,7 +105,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
             // can move only on x ? 
             canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.one * _playerHeight,
                 _playerWidth, xDirection, moveDistance);
-            if (canMove)
+            if (canMove&&  moveDir.x != 0)
             {
                 moveDir = xDirection;
             }
@@ -117,7 +117,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
                     transform.position + Vector3.one * _playerHeight,
                     _playerWidth, zDirection, moveDistance);
                 //can move on z ?
-                if (canMove)
+                if (canMove &&  moveDir.z != 0)
                 {
                     moveDir = zDirection;
                 }
