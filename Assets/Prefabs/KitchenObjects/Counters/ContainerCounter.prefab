@@ -285,7 +285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8143070647044102886, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8609693441769329850, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -303,21 +303,6 @@ PrefabInstance:
 --- !u!1 &3257179153899978467 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8143070647044102886, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
-  m_PrefabInstance: {fileID: 6643421547501102085}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3479336734821372266 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7816906318471787887, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
-  m_PrefabInstance: {fileID: 6643421547501102085}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6400986184771513102 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 353237590725857035, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
-  m_PrefabInstance: {fileID: 6643421547501102085}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6727948866600198376 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 102550813385737453, guid: 9a9137fa2b035d34e881701d2c178192, type: 3}
   m_PrefabInstance: {fileID: 6643421547501102085}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7170821000766406830 stripped
@@ -343,8 +328,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedVisual:
-  - {fileID: 3479336734821372266}
   - {fileID: 3257179153899978467}
-  - {fileID: 6400986184771513102}
-  - {fileID: 6727948866600198376}
   currentCounter: {fileID: 1208309245420305457}

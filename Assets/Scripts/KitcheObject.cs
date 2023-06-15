@@ -19,7 +19,7 @@ public class KitcheObject : MonoBehaviour
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-       // if(kitchenObjectParent.HasKitchenObject())return;
+       // also sets the refferences
         if (_kitchenObjectParent != null)
             _kitchenObjectParent.SetKitchenObject(null);
         

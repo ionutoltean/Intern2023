@@ -13,7 +13,6 @@ public class ContainerCounter : BaseCounter
         if (player.HasKitchenObject()) return;
 
         GameObject spawnedItem = Instantiate(_kitchenObjectSO.prefab, GetCounterTopPoint().transform);
-        spawnedItem.transform.localPosition = Vector3.zero;
         SetKitchenObject(spawnedItem.GetComponent<KitcheObject>());
         GetKitchenObject().SetKitchenObjectParent(player);
         OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
