@@ -38,5 +38,9 @@ public class BaseCounter : MonoBehaviour , IKitchenObjectParent
     {
         _kitchenObject = null;
     }
-    
+
+    public virtual void InteractAlternate(Player player)
+    {
+        
+    }
 }
