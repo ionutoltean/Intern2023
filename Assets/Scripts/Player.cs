@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour,IKitchenObjectParent
+public class Player : MonoBehaviour, IKitchenObjectParent
 {
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _rotateSpeed = 10;
@@ -15,9 +15,9 @@ public class Player : MonoBehaviour,IKitchenObjectParent
     private BaseCounter _selectedCounter;
     private bool isWalking;
     [SerializeField] private LayerMask _counterlayerMask;
-    
-    [SerializeField]private GameObject playerHoldPoint;
-    
+
+    [SerializeField] private GameObject playerHoldPoint;
+
     private KitcheObject _kitcheObject;
     public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounterChange;
 
@@ -80,7 +80,6 @@ public class Player : MonoBehaviour,IKitchenObjectParent
                 {
                     ChangeSelectedCounter(baseCounter);
                 }
-                
             }
 
             if (hasComponent == false)
@@ -88,8 +87,9 @@ public class Player : MonoBehaviour,IKitchenObjectParent
                 ChangeSelectedCounter(null);
             }
         }
- /////
- /// 
+
+        /////
+        /// 
         if (counterFound == false)
         {
             ChangeSelectedCounter(null);
@@ -110,9 +110,10 @@ public class Player : MonoBehaviour,IKitchenObjectParent
             // cant move diagonally 
             Vector3 xDirection = new Vector3(moveDir.x, 0, 0);
             // can move only on x ? 
-            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.one * _playerHeight,
-                _playerWidth, xDirection, moveDistance);
-            if (canMove&&  moveDir.x != 0)
+            if (xDirection != Vector3.zero)
+                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.one * _playerHeight,
+                    _playerWidth, xDirection, moveDistance);
+            if (canMove && moveDir.x != 0)
             {
                 moveDir = xDirection;
             }
@@ -120,11 +121,12 @@ public class Player : MonoBehaviour,IKitchenObjectParent
             else
             {
                 Vector3 zDirection = new Vector3(0, 0, moveDir.z);
-                canMove = !Physics.CapsuleCast(transform.position,
-                    transform.position + Vector3.one * _playerHeight,
-                    _playerWidth, zDirection, moveDistance);
+                if (zDirection != Vector3.zero)
+                    canMove = !Physics.CapsuleCast(transform.position,
+                        transform.position + Vector3.one * _playerHeight,
+                        _playerWidth, zDirection, moveDistance);
                 //can move on z ?
-                if (canMove &&  moveDir.z != 0)
+                if (canMove && moveDir.z != 0)
                 {
                     moveDir = zDirection;
                 }
