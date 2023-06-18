@@ -1,66 +1,170 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class StoveCounter : BaseCounter
 {
-   [SerializeField]
-   private FryingRecipeSO[] _fryingRecipeSOArray;
+    public event EventHandler<OnStateChangeEventArgs>OnStateChanged;
+    public class OnStateChangeEventArgs: EventArgs
+    {
+        public State state;
+    }
+    public enum State
+    {
+        Idle,
+        Frying,
+        Fried,
+        Burned
+        
+    }
 
-   public override void Interact(Player player)
-   {
-       if (HasKitchenObject())
-       {
-           //object on the counter 
-           if (player.HasKitchenObject() == false)
-           {
-               KitcheObject kitcheObject = GetKitchenObject();
-               kitcheObject.SetKitchenObjectParent(player);
-           }
-       }
-       else
-       {
-           //no object
-           if (player.HasKitchenObject() && HasIngredientForRecipe(player.GetKitchenObject().GetKitchenObjectSO()))
-           {
-               KitcheObject kitcheObject = player.GetKitchenObject();
-               kitcheObject.SetKitchenObjectParent(this);
-              
-           }
-       }
-   }
-   
-   private KitchenObjectSO GetOutputForInput(KitchenObjectSO input)
-   {
-       foreach (var recipe in _fryingRecipeSOArray)
-       {
-           if (recipe.input == input)
-               return recipe.output;
-       }
+    [SerializeField] private FryingRecipeSO[] _fryingRecipeSOArray;
+    [SerializeField] private BurningRecipeSO[] _burningRecipeSOArray;
 
-       return null;
-   }
+    private float fryingTimer;
+    private float burningTimer;
+    private float neededMaximumTimer;
+    private State currentState;
 
-   private bool HasIngredientForRecipe(KitchenObjectSO input)
-   {
-       foreach (var recipe in _fryingRecipeSOArray)
-       {
-           if (recipe.input == input)
-               return true;
-       }
+    private void Start()
+    {
+        currentState = State.Idle;
+    }
 
-       return false;
-   }
+    private void Update()
+    {
+        if (HasKitchenObject())
+        {
+            switch (currentState)
+            {
+                case State.Idle:
+                {
+                }
+                    break;
+                case State.Frying:
+                {
+                  
+                    fryingTimer += Time.deltaTime;
+                    if (fryingTimer > neededMaximumTimer)
+                    {
+                        burningTimer = 0f;
+                        //fried
+                        fryingTimer += Time.deltaTime;
+                        KitchenObjectSO currentSo = GetKitchenObject().GetKitchenObjectSO();
+                        GetKitchenObject().DestroySelf();
+                        KitcheObject spawned = KitcheObject.SpawnKitchenObject(GetOutputForInputFrying(currentSo), this);
+                        currentState = State.Fried;
+                        OnStateChanged?.Invoke(this,new OnStateChangeEventArgs
+                        {
+                            state = currentState
+                        });
+                    }
+                }
+                    break;
+                case State.Fried:
+                {
+                    burningTimer += Time.deltaTime;
+                    if (burningTimer > neededMaximumTimer)
+                    {
+                        //fried
+                        fryingTimer += Time.deltaTime;
+                        KitchenObjectSO currentSo = GetKitchenObject().GetKitchenObjectSO();
+                        GetKitchenObject().DestroySelf();
+                        KitcheObject spawned = KitcheObject.SpawnKitchenObject(GetOutputForInputBurning(currentSo), this);
+                        currentState = State.Burned;
+                        OnStateChanged?.Invoke(this,new OnStateChangeEventArgs
+                        {
+                            state = currentState
+                        });
+                    }
+                }
+                    break;
+                case State.Burned:
+                {
+                }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
-   private float GetSecondsNeededMaximum(KitchenObjectSO input)
-   {
-       foreach (var recipe in _fryingRecipeSOArray)
-       {
-           if (recipe.input == input)
-               return recipe.fryingTimerMax;
-       }
+    public override void Interact(Player player)
+    {
+        if (HasKitchenObject())
+        {
+            //object on the counter 
+            if (player.HasKitchenObject() == false)
+            {
+                KitcheObject kitcheObject = GetKitchenObject();
+                kitcheObject.SetKitchenObjectParent(player);
+                currentState = State.Idle;
+                OnStateChanged?.Invoke(this,new OnStateChangeEventArgs
+                {
+                    state = currentState
+                });
+            }
+        }
+        else
+        {
+            //no object
+            if (player.HasKitchenObject() && HasIngredientForRecipe(player.GetKitchenObject().GetKitchenObjectSO()))
+            {
+                KitcheObject kitcheObject = player.GetKitchenObject();
+                kitcheObject.SetKitchenObjectParent(this);
+                neededMaximumTimer = GetSecondsNeededMaximum(GetKitchenObject().GetKitchenObjectSO());
+                currentState = State.Frying;
+                fryingTimer = 0f;
+                OnStateChanged?.Invoke(this,new OnStateChangeEventArgs
+                {
+                    state = currentState
+                });
+            }
+        }
+    }
 
-       Debug.LogError("Cuts NeededAreNot in the recipe array");
-       return 0;
-   }
+    private KitchenObjectSO GetOutputForInputFrying(KitchenObjectSO input)
+    {
+        foreach (var recipe in _fryingRecipeSOArray)
+        {
+            if (recipe.input == input)
+                return recipe.output;
+        }
+
+        return null;
+    }    private KitchenObjectSO GetOutputForInputBurning(KitchenObjectSO input)
+    {
+        foreach (var recipe in _burningRecipeSOArray)
+        {
+            if (recipe.input == input)
+                return recipe.output;
+        }
+
+        return null;
+    }
+
+    private bool HasIngredientForRecipe(KitchenObjectSO input)
+    {
+        foreach (var recipe in _fryingRecipeSOArray)
+        {
+            if (recipe.input == input)
+                return true;
+        }
+
+        return false;
+    }
+
+    private float GetSecondsNeededMaximum(KitchenObjectSO input)
+    {
+        foreach (var recipe in _fryingRecipeSOArray)
+        {
+            if (recipe.input == input)
+                return recipe.fryingTimerMax;
+        }
+
+        Debug.LogError("Cuts NeededAreNot in the recipe array");
+        return 0;
+    }
 }

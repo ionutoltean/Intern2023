@@ -247,6 +247,8 @@ MonoBehaviour:
   _kitchenObject: {fileID: 0}
   _fryingRecipeSOArray:
   - {fileID: 11400000, guid: e3ec07a0406afcc449be348b14931423, type: 2}
+  _burningRecipeSOArray:
+  - {fileID: 11400000, guid: 0c45be04bad2adf4d9223c2b9fa5b634, type: 2}
 --- !u!1001 &5439572753955531160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,8 +308,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4589716710238282922, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1125344551008425814}
   m_SourcePrefab: {fileID: 100100000, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+--- !u!1 &220396438806919030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5220305274835918574, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+  m_PrefabInstance: {fileID: 5439572753955531160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5422462322350366975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 17251720544094567, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+  m_PrefabInstance: {fileID: 5439572753955531160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8416327883546742066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4589716710238282922, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
+  m_PrefabInstance: {fileID: 5439572753955531160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1125344551008425814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8416327883546742066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48a3f1b2b6b524489c025b6f4c881ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stoveLight: {fileID: 5422462322350366975}
+  particle: {fileID: 220396438806919030}
+  _stoveCounter: {fileID: 2574385384981232177}
 --- !u!4 &8416327883546742067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4589716710238282923, guid: 93af8b85a17635f40a5b76ed82a86c18, type: 3}
