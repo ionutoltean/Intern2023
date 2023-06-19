@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlateCounterVisual : MonoBehaviour
@@ -13,6 +14,14 @@ public class PlateCounterVisual : MonoBehaviour
     private void Start()
     {
         platesCounter.OnPlateSpawned += OnPlatesSpawned;
+        platesCounter.OnPlateRemoved += OnPlatesRemoved;
+    }
+
+    private void OnPlatesRemoved(object sender, EventArgs e)
+    {
+        var plateToDestroy = currentPlates[currentPlates.Count - 1];
+        currentPlates.Remove(plateToDestroy);
+        Destroy(plateToDestroy);
     }
 
     private void Awake()

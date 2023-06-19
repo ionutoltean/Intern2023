@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
-
     public override void Interact(Player player)
     {
         if (HasKitchenObject())
@@ -15,7 +14,20 @@ public class ClearCounter : BaseCounter
             {
                 KitcheObject kitcheObject = GetKitchenObject();
                 kitcheObject.SetKitchenObjectParent(player);
-                
+            }
+            else
+            {
+                if (player.GetKitchenObject().TryToGetPlate(out PlateKitchenObject plate))
+                {
+                    if (plate.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                        GetKitchenObject().DestroySelf();
+                }
+
+                else if (GetKitchenObject().TryToGetPlate(out PlateKitchenObject plate2))
+                {
+                    if (plate2.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                        player.GetKitchenObject().DestroySelf();
+                }
             }
         }
         else
@@ -26,9 +38,6 @@ public class ClearCounter : BaseCounter
                 KitcheObject kitcheObject = player.GetKitchenObject();
                 kitcheObject.SetKitchenObjectParent(this);
             }
-            
         }
-        
     }
-
 }
