@@ -24,6 +24,10 @@ public class CuttingCounter : BaseCounter,IHasProgress
             {
                 KitcheObject kitcheObject = GetKitchenObject();
                 kitcheObject.SetKitchenObjectParent(player);
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                {
+                    progressNormalized = 0f
+                });
             }
         }
         else
