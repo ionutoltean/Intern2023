@@ -7,7 +7,7 @@ public class BaseCounter : MonoBehaviour , IKitchenObjectParent
     
    
     [SerializeField] private GameObject _counterTopPoint;
-    [SerializeField] private KitcheObject _kitchenObject;
+    private KitcheObject _kitchenObject;
     // Start is called before the first frame update
     public virtual void Interact(Player player)
     {
