@@ -7,6 +7,14 @@ public class PlateKitchenObject : KitcheObject
 {
     private List<KitchenObjectSO> _ingredientList;
     [SerializeField] private List<KitchenObjectSO> _validIngredientList;
+    public event EventHandler<OnIngredientAddedEventArgs> OnIngredientAdded;
+
+   
+
+    public class OnIngredientAddedEventArgs : EventArgs
+    {
+        public KitchenObjectSO KitchenObjectSo;
+    }
 
     private void Awake()
     {
@@ -20,6 +28,10 @@ public class PlateKitchenObject : KitcheObject
         if (_ingredientList.Contains(ingredient))
             return false;
         _ingredientList.Add(ingredient);
+        OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs
+        {
+            KitchenObjectSo = ingredient
+        });
         return true;
     }
 }
