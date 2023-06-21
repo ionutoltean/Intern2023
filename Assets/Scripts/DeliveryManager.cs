@@ -6,6 +6,8 @@ using UnityEngine;
 public class DeliveryManager : MonoBehaviour
 {
     [SerializeField] private RecipeListSO _recipeListSo;
+    public event EventHandler OnRecipeAdded; 
+    public event EventHandler OnRecipeCompleted; 
     private List<RecipeSO> waitingRecipeSOList;
     private float spawnRecipeTimer = 0f;
     private float spawnRecipeTimerMax = 4f;
@@ -27,10 +29,14 @@ public class DeliveryManager : MonoBehaviour
             RecipeSO nextRecipe =
                 _recipeListSo.recipeSOList[UnityEngine.Random.Range(0, _recipeListSo.recipeSOList.Count)];
             waitingRecipeSOList.Add(nextRecipe);
-            Debug.Log(nextRecipe.name);
+            OnRecipeAdded?.Invoke(this,EventArgs.Empty);
         }
     }
 
+    public List<RecipeSO> GetWaitingOrders()
+    {
+        return waitingRecipeSOList;
+    }
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
         for (int i = 0; i < waitingRecipeSOList.Count; i++)
@@ -49,11 +55,10 @@ public class DeliveryManager : MonoBehaviour
 
             if (recipeOk)
             {
-                Debug.Log("Player deliver good recie:" + waitingRecipeSOList[i]);
+                waitingRecipeSOList.RemoveAt(i);
+                OnRecipeCompleted?.Invoke(this,EventArgs.Empty);
                 return;
             }
         }
-
-        Debug.Log("incorect recipe");
     }
 }
