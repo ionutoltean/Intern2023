@@ -11,6 +11,7 @@ public class DeliveryCounter : BaseCounter
         {
             KitcheObject kitcheObject = player.GetKitchenObject();
             kitcheObject.SetKitchenObjectParent(this);
+            DeliveryManager.Instance.DeliverRecipe(plateKitchenObject);
             GetKitchenObject().DestroySelf();
         }
             

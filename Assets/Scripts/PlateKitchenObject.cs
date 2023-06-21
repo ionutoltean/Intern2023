@@ -21,6 +21,10 @@ public class PlateKitchenObject : KitcheObject
         _ingredientList = new List<KitchenObjectSO>();
     }
 
+    public List<KitchenObjectSO> GetIngredientList()
+    {
+        return _ingredientList;
+    }
     public bool TryAddIngredient(KitchenObjectSO ingredient)
     {
         if (_validIngredientList.Contains(ingredient) == false)
