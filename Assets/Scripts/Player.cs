@@ -60,12 +60,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void PlayerInteracted(object sender, EventArgs e)
     {
+        if(GameManager.Instance.IsGamePlaying() ==false)return;
         if (_selectedCounter != null)
             _selectedCounter.Interact(this);
     }
 
     private void HandleInteraction()
     {
+        if(GameManager.Instance.IsGamePlaying() ==false)return;
         var inputVector = _gameInput.GetInputVector2Normalized();
         Vector3 moveDir;
         moveDir = inputVector != Vector2.zero ? new Vector3(inputVector.x, 0f, inputVector.y) : _lastInteractDir;
@@ -99,6 +101,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void HandleMovement()
     {
+        if(GameManager.Instance.IsGamePlaying() ==false)return;
         var inputVector = _gameInput.GetInputVector2Normalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
         isWalking = moveDir != Vector3.zero;
@@ -134,7 +137,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             }
         }
 
-        var step = moveDir * moveDistance;
+            var step = moveDir * moveDistance;
         if (canMove)
         {
             transform.position += step;
