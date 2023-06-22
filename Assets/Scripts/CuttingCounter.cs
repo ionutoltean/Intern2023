@@ -9,6 +9,7 @@ public class CuttingCounter : BaseCounter,IHasProgress
     private int cutCount;
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
     public event EventHandler OnCut;
+    public static event EventHandler OnAnyCut;
 
     public class OnProgressChangedEventArgs : EventArgs
     {
@@ -64,6 +65,7 @@ public class CuttingCounter : BaseCounter,IHasProgress
         {
             cutCount++;
             OnCut?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
             {
                 progressNormalized = (float)cutCount / GetCutsNeededMaximum(GetKitchenObject().GetKitchenObjectSO())

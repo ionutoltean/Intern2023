@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private KitcheObject _kitcheObject;
     public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounterChange;
+    public event EventHandler OnPickUp;
 
     public class OnSelectedCounterEventArgs : EventArgs
     {
@@ -167,6 +168,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitcheObject kitcheObject)
     {
         this._kitcheObject = kitcheObject;
+        if(kitcheObject!=null)
+            OnPickUp?.Invoke(this,EventArgs.Empty);
     }
 
     public bool HasKitchenObject()
