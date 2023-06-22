@@ -7,6 +7,12 @@ using Random = UnityEngine.Random;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClipsListSO _audioClipsListSo;
+    public static SoundManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -15,6 +21,13 @@ public class SoundManager : MonoBehaviour
         CuttingCounter.OnAnyCut += CuttingCounterCut;
         Player.Instance.OnPickUp += PlayerPickup;
         BaseCounter.OnDrop += PlayerDrop;
+        TrashCounter.OnTrashed += OnTrashed;
+    }
+
+    private void OnTrashed(object sender, EventArgs e)
+    {
+        TrashCounter counter = sender as TrashCounter;
+        PlaySound(_audioClipsListSo.trash, counter.transform.position);
     }
 
     private void PlayerDrop(object sender, EventArgs e)
@@ -55,5 +68,10 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(AudioClip[] audioClipArray, Vector3 positon, float volume = 1f)
     {
         AudioSource.PlayClipAtPoint(audioClipArray[Random.Range(0, audioClipArray.Length)], positon, volume);
+    }
+
+    public void PlayFootSteeps(Vector3 position, float volume)
+    {
+        PlaySound(_audioClipsListSo.footstept, position, volume);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TrashCounter : BaseCounter
 {
-
+    public static event EventHandler OnTrashed;
     public override void Interact(Player player)
     {
 
@@ -14,6 +14,7 @@ public class TrashCounter : BaseCounter
                 KitcheObject kitcheObject = player.GetKitchenObject();
                 kitcheObject.SetKitchenObjectParent(this);
                 GetKitchenObject().DestroySelf();
+                OnTrashed?.Invoke(this,EventArgs.Empty);
             }
             
        
