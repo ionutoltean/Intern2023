@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter,IHasProgress
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private CuttingRecipeSO[] cuttingRecipesArray;
     private int cutCount;
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
     public event EventHandler OnCut;
+
+   new public static void ResetData()
+    {
+        OnAnyCut = null;
+    }
+
     public static event EventHandler OnAnyCut;
 
     public class OnProgressChangedEventArgs : EventArgs
@@ -39,7 +45,6 @@ public class CuttingCounter : BaseCounter,IHasProgress
                         GetKitchenObject().DestroySelf();
                     }
                 }
-                
             }
         }
         else

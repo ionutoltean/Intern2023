@@ -14,12 +14,15 @@ public class GameManager : MonoBehaviour
     }
 
     public event EventHandler OnStateChanged;
+    public event EventHandler OnGamePaused;
+    public event EventHandler OnGameUnpaused;
     public static GameManager Instance { get; private set; }
     private State state;
     private float waitingToStart = 1f;
     private float countDown = 3f;
     private float gamePlaying;
     private float gamePlayingMax = 10f;
+    private bool IsGamePaused;
 
     private void Awake()
     {
@@ -28,6 +31,30 @@ public class GameManager : MonoBehaviour
         gamePlaying = gamePlayingMax;
     }
 
+    private void Start()
+    {
+        GameInput.Instance.OnPausePerformed += OnPausePressed;
+    }
+
+    public void OnPausePressed(object sender, EventArgs e)
+    {
+      TogglePause();
+    }
+
+    public void TogglePause()
+    {
+        IsGamePaused = !IsGamePaused;
+        if (IsGamePaused)
+        {
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            OnGameUnpaused?.Invoke(this, EventArgs.Empty);
+            Time.timeScale = 1;
+        }
+    }
     private void Update()
     {
         switch (state)

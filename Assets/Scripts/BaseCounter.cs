@@ -6,7 +6,12 @@ using UnityEngine;
 public class BaseCounter : MonoBehaviour , IKitchenObjectParent
 {
 
-    public static event EventHandler OnDrop; 
+    public static event EventHandler OnDrop;
+
+    public static void ResetData()
+    {
+        OnDrop = null;
+    }
     [SerializeField] private GameObject _counterTopPoint;
     private KitcheObject _kitchenObject;
     // Start is called before the first frame update
