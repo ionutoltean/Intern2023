@@ -7,6 +7,7 @@ using UnityEngine.Analytics;
 public class StoveCounter : BaseCounter, IHasProgress
 {
     public event EventHandler<OnStateChangeEventArgs> OnStateChanged;
+    public event EventHandler OnWarning;
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     public class OnStateChangeEventArgs : EventArgs
@@ -76,6 +77,8 @@ public class StoveCounter : BaseCounter, IHasProgress
                     {
                         progressNormalized = burningTimer / neededMaximumTimer
                     });
+                    if (burningTimer / neededMaximumTimer > 0.5f)
+                        OnWarning?.Invoke(this, EventArgs.Empty);
                     if (burningTimer > neededMaximumTimer)
                     {
                         //fried
@@ -126,7 +129,8 @@ public class StoveCounter : BaseCounter, IHasProgress
                 });
             }
             else
-            { // play has something
+            {
+                // play has something
                 if (player.GetKitchenObject().TryToGetPlate(out PlateKitchenObject plate))
                 {
                     if (plate.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
@@ -143,7 +147,6 @@ public class StoveCounter : BaseCounter, IHasProgress
                         });
                     }
                 }
-                
             }
         }
         else

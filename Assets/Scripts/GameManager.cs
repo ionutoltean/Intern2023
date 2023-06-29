@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private float waitingToStart = 1f;
     private float countDown = 3f;
     private float gamePlaying;
-    private float gamePlayingMax = 10f;
+    private float gamePlayingMax = 200;
     private bool IsGamePaused;
 
     private void Awake()
